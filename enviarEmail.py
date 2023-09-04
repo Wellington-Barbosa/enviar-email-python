@@ -30,17 +30,17 @@ for _, row in df.iterrows():
 
     # Configurar informações do e-mail
     email.To = destinatario["email"]
-    email.Subject = "Teste de envio de e-mail automático"
+    email.Subject = "Boleto Mensal - UnimedRV"
     email.HTMLBody = """
-        <p>Olá Wellington, tudo bem?</p>
+        <p>Olá, espero que este e-mail o encontre bem?</p>
 
-        <p>Este aqui é um e-mail de teste.</p>
+        <p>Segue em anexo o boleto mensal do plano de saúde da Unimed Rio Verde.</p>
 
-        <p>Por favor desconsiderar.</p>
+        <p>Por gentileza conferir os dados de seu boleto.</p>
 
         <p>Atenciosamente,</p>
 
-        <p>Equipe de Desenvolvimento.</p>
+        <p>Departamento Financeiro.</p>
     """
 
     # Construir o caminho completo para o arquivo PDF

@@ -5,8 +5,19 @@ import pandas as pd
 # Criando a integração com o Outlook
 outlook = win32.Dispatch('outlook.application')
 
+# Carregue o arquivo CSV com ";" como separador
+caminho_do_arquivo = r'C:\beneficiarios\benef.csv'
+dataframe = pd.read_csv(caminho_do_arquivo, sep=';')
+
+# Salve o DataFrame de volta como um arquivo CSV com "," como separador
+novo_caminho_do_arquivo = r'C:\beneficiarios\novo_arquivo.csv'
+dataframe.to_csv(novo_caminho_do_arquivo, sep=',', index=False)
+# Isso salvará o DataFrame no novo arquivo CSV com "," como separador
+
 # Ler os dados do CSV usando Pandas
-df = pd.read_csv("benef.csv", dtype={'VENDAS': str}, sep=';')
+df = pd.read_csv(r"C:\beneficiarios\novo_arquivo.csv", dtype={'VENDAS': str})
+
+df.columns = df.columns.str.strip()
 
 for _, row in df.iterrows():
     destinatario = {

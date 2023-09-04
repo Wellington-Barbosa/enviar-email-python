@@ -1,0 +1,88 @@
+('G:\\Wellington '
+ 'Programas\\Development\\enviar_email_python\\build\\enviarEmail\\enviarEmail.pkg',
+ {'BINARY': True,
+  'DATA': True,
+  'EXECUTABLE': True,
+  'EXTENSION': True,
+  'PYMODULE': True,
+  'PYSOURCE': True,
+  'PYZ': False,
+  'SPLASH': True},
+ [('PYZ-00.pyz',
+   'G:\\Wellington '
+   'Programas\\Development\\enviar_email_python\\build\\enviarEmail\\PYZ-00.pyz',
+   'PYZ'),
+  ('struct',
+   'G:\\Wellington '
+   'Programas\\Development\\enviar_email_python\\build\\enviarEmail\\localpycs\\struct.pyc',
+   'PYMODULE'),
+  ('pyimod01_archive',
+   'G:\\Wellington '
+   'Programas\\Development\\enviar_email_python\\build\\enviarEmail\\localpycs\\pyimod01_archive.pyc',
+   'PYMODULE'),
+  ('pyimod02_importers',
+   'G:\\Wellington '
+   'Programas\\Development\\enviar_email_python\\build\\enviarEmail\\localpycs\\pyimod02_importers.pyc',
+   'PYMODULE'),
+  ('pyimod03_ctypes',
+   'G:\\Wellington '
+   'Programas\\Development\\enviar_email_python\\build\\enviarEmail\\localpycs\\pyimod03_ctypes.pyc',
+   'PYMODULE'),
+  ('pyimod04_pywin32',
+   'G:\\Wellington '
+   'Programas\\Development\\enviar_email_python\\build\\enviarEmail\\localpycs\\pyimod04_pywin32.pyc',
+   'PYMODULE'),
+  ('pyiboot01_bootstrap',
+   'G:\\Wellington '
+   'Programas\\Development\\venv\\Lib\\site-packages\\PyInstaller\\loader\\pyiboot01_bootstrap.py',
+   'PYSOURCE'),
+  ('pyi_rth_inspect',
+   'G:\\Wellington '
+   'Programas\\Development\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_inspect.py',
+   'PYSOURCE'),
+  ('pyi_rth_pkgutil',
+   'G:\\Wellington '
+   'Programas\\Development\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgutil.py',
+   'PYSOURCE'),
+  ('pyi_rth_multiprocessing',
+   'G:\\Wellington '
+   'Programas\\Development\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_multiprocessing.py',
+   'PYSOURCE'),
+  ('pyi_rth_pkgres',
+   'G:\\Wellington '
+   'Programas\\Development\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgres.py',
+   'PYSOURCE'),
+  ('pyi_rth_win32comgenpy',
+   'G:\\Wellington '
+   'Programas\\Development\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_win32comgenpy.py',
+   'PYSOURCE'),
+  ('pyi_rth_pywintypes',
+   'G:\\Wellington '
+   'Programas\\Development\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\hooks\\rthooks\\pyi_rth_pywintypes.py',
+   'PYSOURCE'),
+  ('pyi_rth_pythoncom',
+   'G:\\Wellington '
+   'Programas\\Development\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\hooks\\rthooks\\pyi_rth_pythoncom.py',
+   'PYSOURCE'),
+  ('pyi_rth_setuptools',
+   'G:\\Wellington '
+   'Programas\\Development\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_setuptools.py',
+   'PYSOURCE'),
+  ('pyi_rth_traitlets',
+   'G:\\Wellington '
+   'Programas\\Development\\venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\hooks\\rthooks\\pyi_rth_traitlets.py',
+   'PYSOURCE'),
+  ('pyi_rth__tkinter',
+   'G:\\Wellington '
+   'Programas\\Development\\venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth__tkinter.py',
+   'PYSOURCE'),
+  ('enviarEmail',
+   'G:\\Wellington Programas\\Development\\enviar_email_python\\enviarEmail.py',
+   'PYSOURCE')],
+ True,
+ False,
+ False,
+ [],
+ None,
+ None,
+ None)

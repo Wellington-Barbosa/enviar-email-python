@@ -1,5 +1,5 @@
 ('G:\\Wellington '
- 'Programas\\Development\\enviar_email_python\\build\\enviarEmail\\PYZ-00.pyz',
+ 'Programas\\Development\\enviar_email_python\\build\\enviarEMail\\PYZ-00.pyz',
  [('IPython',
    'C:\\Users\\welli\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\IPython\\__init__.py',
    'PYMODULE'),

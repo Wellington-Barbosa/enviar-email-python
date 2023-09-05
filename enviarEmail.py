@@ -22,7 +22,8 @@ df.columns = df.columns.str.strip()
 for _, row in df.iterrows():
     destinatario = {
         "email": row["EMAIL"],
-        "vendas": row["VENDAS"]  # Nome do arquivo da coluna "VENDAS"
+        "vendas": str(row["VENDAS"]).zfill(10)  # Nome do arquivo da coluna "VENDAS" com 10 dígitos
+        #"vendas": row["VENDAS"]  # Nome do arquivo da coluna "VENDAS"
     }
 
     # Criar e-mail

@@ -33,7 +33,7 @@ for _, row in df.iterrows():
     email.To = destinatario["email"]
     email.Subject = "Boleto Mensal - UnimedRV"
     email.HTMLBody = """
-        <p>Olá, espero que este e-mail o encontre bem?</p>
+        <p>Olá, espero que este e-mail o(a) encontre bem?</p>
 
         <p>Segue em anexo o boleto mensal do plano de saúde da Unimed Rio Verde.</p>
 

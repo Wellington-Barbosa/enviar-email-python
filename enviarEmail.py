@@ -1,6 +1,7 @@
 import win32com.client as win32
 import os
 import pandas as pd
+import datetime
 
 # Criando a integração com o Outlook
 outlook = win32.Dispatch('outlook.application')
@@ -33,11 +34,13 @@ for _, row in df.iterrows():
     email.To = destinatario["email"]
     email.Subject = "Boleto Mensal - UnimedRV"
     email.HTMLBody = """
-        <p>Olá, espero que este e-mail o(a) encontre bem!</p>
+        <p>Olá,</p> 
+        
+        <p>Espero encontrá-lo(a)</p>
 
-        <p>Segue em anexo o boleto mensal do plano de saúde da Unimed Rio Verde.</p>
+        <p>Segue em anexo o boleto simples do contrato de plano de saúde da Unimed Rio Verde.</p>
 
-        <p>Por gentileza conferir os dados de seu boleto.</p>
+        <p><b>Esse e-mail não recebe retorno, por gentileza, não responder.</b></p>
 
         <p>Atenciosamente,</p>
 
@@ -56,6 +59,14 @@ for _, row in df.iterrows():
 
     # Enviar o e-mail
     email.Send()
-    print(f"E-mail enviado para {destinatario['email']}")
+    data_hora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    mensagem = f"{data_hora} - E-mail enviado para {destinatario['email']}"
+    print(mensagem)
+    ## print(f"E-mail enviado para {destinatario['email']}")
+
+    # Salvar a mensagem em um arquivo de log
+    log_path = r'C:\beneficiarios\log.txt'
+    with open(log_path, 'a') as log_file:
+        log_file.write(mensagem + '\n')
 
 print("Todos os e-mails foram enviados!")

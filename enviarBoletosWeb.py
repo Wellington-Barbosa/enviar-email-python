@@ -41,7 +41,7 @@ for _, row in df.iterrows():
     # Carregue o corpo do e-mail a partir de um arquivo
     email_body_file = 'email_body.html'
     if os.path.exists(email_body_file):
-        with open(email_body_file, 'r') as f:
+        with open(email_body_file, 'r', encoding='utf-8') as f:  # Especifique a codificação UTF-8
             email_body = f.read()
     else:
         raise Exception("O arquivo do corpo do e-mail não foi encontrado.")
@@ -52,8 +52,8 @@ for _, row in df.iterrows():
     msg['To'] = destinatario_email
     msg['Subject'] = "Boleto Mensal - UnimedRV"
 
-    # Anexar o corpo do e-mail em formato HTML
-    msg.attach(MIMEText(email_body, 'html'))
+    # Anexar o corpo do e-mail em formato HTML com codificação UTF-8
+    msg.attach(MIMEText(email_body, 'html', 'utf-8'))
 
     # Construir o caminho completo para o arquivo PDF
     pdf_path = rf'C:\boletos\{vendas}.pdf'

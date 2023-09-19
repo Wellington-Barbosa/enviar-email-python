@@ -1,4 +1,5 @@
 import os
+import json
 import pandas as pd
 import datetime
 import smtplib
@@ -6,11 +7,19 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 
-# Configurações do servidor SMTP do Outlook
-smtp_server = 'smtp.office365.com'
-smtp_port = 587
-smtp_username = 'naoresponda.unimed@unimedrv.com.br'
-smtp_password = 'Nr@01020304'
+# Carregue as configurações do arquivo JSON
+config_file = 'config.json'
+if os.path.exists(config_file):
+    with open(config_file, 'r') as f:
+        config = json.load(f)
+else:
+    raise Exception("O arquivo de configurações não foi encontrado.")
+
+# Configurações do servidor SMTP do Outlook (Carregadas do arquivo .json)
+smtp_server = config.get('smtp_server')
+smtp_port = config.get('smtp_port')
+smtp_username = config.get('smtp_username')
+smtp_password = config.get('smtp_password')
 
 # Carregue o arquivo CSV com ";" como separador
 caminho_do_arquivo = r'C:\beneficiarios\benef.csv'
@@ -29,15 +38,13 @@ for _, row in df.iterrows():
     destinatario_email = row["EMAIL"]
     vendas = str(row["VENDAS"]).zfill(10)  # Nome do arquivo da coluna "VENDAS" com 10 dígitos
 
-    # Criar o corpo do e-mail
-    mensagem = """
-        <p>Olá,</p> 
-        <p>Espero encontrá-lo(a)</p>
-        <p>Segue em anexo o boleto simples do contrato de plano de saúde da Unimed Rio Verde.</p>
-        <p><b>Esse e-mail não recebe retorno, por gentileza, não responder.</b></p>
-        <p>Atenciosamente,</p>
-        <p>Departamento Financeiro.</p>
-    """
+    # Carregue o corpo do e-mail a partir de um arquivo
+    email_body_file = 'email_body.html'
+    if os.path.exists(email_body_file):
+        with open(email_body_file, 'r') as f:
+            email_body = f.read()
+    else:
+        raise Exception("O arquivo do corpo do e-mail não foi encontrado.")
 
     # Configurar o e-mail
     msg = MIMEMultipart()
@@ -46,7 +53,7 @@ for _, row in df.iterrows():
     msg['Subject'] = "Boleto Mensal - UnimedRV"
 
     # Anexar o corpo do e-mail em formato HTML
-    msg.attach(MIMEText(mensagem, 'html'))
+    msg.attach(MIMEText(email_body, 'html'))
 
     # Construir o caminho completo para o arquivo PDF
     pdf_path = rf'C:\boletos\{vendas}.pdf'

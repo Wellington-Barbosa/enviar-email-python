@@ -2,3 +2,4 @@ dist/
 instalador/
 build/
 *.spec
+config.json

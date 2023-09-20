@@ -47,14 +47,22 @@ if not os.path.exists(registro_boletos_enviados):
         f.write('EMAIL,VENDAS\n')
 
 for _, row in df.iterrows():
-    destinatario_email = row["EMAIL"]
-    vendas = str(row["VENDAS"]).zfill(10)  # Nome do arquivo da coluna "VENDAS" com 10 dígitos
+    destinatario_email = row["EMAIL"].strip()  # Remove espaços em branco
+    vendas = str(row["VENDAS"]).zfill(10).strip()  # Remove espaços em branco e adiciona zeros à esquerda
 
     # Verificar se o boleto já foi enviado para este destinatário
     with open(registro_boletos_enviados, 'r') as f:
         registros_enviados = f.readlines()
         if f'{destinatario_email},{vendas}\n' in registros_enviados:
-            print(f"Boleto já enviado para {destinatario_email}, VENDAS: {vendas}")
+            data_hora_1 = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            ja_enviado = f"{data_hora_1} - Boleto já enviado para {destinatario_email}, VENDAS: {vendas}"
+            print(ja_enviado)
+
+            # Salvar a mensagem de erro em um arquivo de log
+            log_path = r'C:\beneficiarios\log.txt'
+            with open(log_path, 'a') as log_file:
+                log_file.write(ja_enviado + '\n')
+
             continue  # Pule este boleto, pois já foi enviado
 
     # Carregue o corpo do e-mail a partir de um arquivo
@@ -98,7 +106,7 @@ for _, row in df.iterrows():
         with open(registro_boletos_enviados, 'a') as f:
             f.write(f'{destinatario_email},{vendas}\n')
 
-        data_hora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        data_hora = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         mensagem = f"{data_hora} - E-mail enviado para {destinatario_email}"
         print(mensagem)
 

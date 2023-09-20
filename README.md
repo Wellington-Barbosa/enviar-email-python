@@ -1,43 +1,58 @@
-# Documentação do Script de Envio de E-mails e Boletos
+# Documentação do Script Python - Envio de Boletos por E-mail
 
-Este script Python automatiza o processo de envio de e-mails contendo boletos mensais da Unimed Rio Verde para os beneficiários, com base em um arquivo CSV de entrada. Ele utiliza a biblioteca `win32com` para integração com o Outlook e a biblioteca `pandas` para manipulação de dados. Abaixo estão detalhadas as principais funcionalidades e o funcionamento do script.
+Este é um script Python que automatiza o processo de envio de boletos por e-mail para beneficiários. O script faz uso de bibliotecas como `os`, `json`, `pandas`, `datetime`, `smtplib` e módulos relacionados a e-mails para realizar o envio. Abaixo, você encontrará uma documentação detalhada explicando o funcionamento do script e como configurá-lo.
 
-## Pré-Requisitos
+## Funcionalidade
 
-Antes de usar este script, é necessário ter os seguintes pré-requisitos configurados:
+O script realiza as seguintes tarefas:
 
-1. **Microsoft Outlook**: O Microsoft Outlook deve estar instalado e configurado com uma conta de e-mail válida.
-2. **Arquivo CSV de Beneficiários**: Você precisa ter um arquivo CSV contendo informações dos beneficiários, incluindo os endereços de e-mail e os números de vendas. Certifique-se de que o arquivo esteja no formato correto, com ";" como separador.
-3. **Diretórios de Armazenamento**: Você deve criar os diretórios onde os boletos PDF serão armazenados (`C:\boletos`) e onde o log de envio será salvo (`C:\beneficiarios`).
+1. Carrega as configurações do servidor SMTP do Outlook a partir de um arquivo JSON.
+2. Lê um arquivo CSV contendo informações dos beneficiários.
+3. Salva o conteúdo do DataFrame em um novo arquivo CSV com um separador diferente.
+4. Verifica se boletos já foram enviados para cada beneficiário.
+5. Envia boletos por e-mail para destinatários que ainda não receberam.
+6. Registra os envios bem-sucedidos em um arquivo CSV e mantém um registro de logs.
 
-## Funcionamento do Script
+## Pré-requisitos
 
-O script realiza as seguintes etapas:
+Antes de executar o script, é importante garantir que os seguintes pré-requisitos sejam atendidos:
 
-1. **Integração com o Outlook**: Ele cria uma integração com o Outlook usando a biblioteca `win32com`.
+1. Um servidor SMTP do Outlook com informações de configuração (endereço, porta, nome de usuário e senha) deve ser configurado e as informações devem ser fornecidas em um arquivo JSON chamado `config.json`.
+2. O arquivo CSV contendo informações dos beneficiários deve estar disponível no caminho especificado em `caminho_do_arquivo`.
+3. Um arquivo HTML chamado `email_body.html` deve ser criado para o corpo do e-mail.
+4. Os boletos a serem enviados devem estar no formato PDF e localizados em um diretório específico (`C:\boletos`).
 
-2. **Leitura do Arquivo CSV de Beneficiários**: O script carrega o arquivo CSV contendo informações dos beneficiários em um DataFrame do Pandas. Certifique-se de ajustar o caminho do arquivo de entrada (`caminho_do_arquivo`) de acordo com a localização do seu arquivo CSV.
+## Configuração
 
-3. **Conversão e Salvamento do DataFrame**: O script converte o DataFrame para um novo arquivo CSV com "," como separador. Isso é necessário para garantir que os números de vendas estejam no formato correto. O novo arquivo é salvo no caminho especificado em `novo_caminho_do_arquivo`.
+O arquivo `config.json` deve ter o seguinte formato:
 
-4. **Loop pelos Beneficiários**: O script percorre cada linha do DataFrame para cada beneficiário.
+```json
+{
+    "smtp_server": "seu_servidor_smtp",
+    "smtp_port": porta_do_servidor_smtp,
+    "smtp_username": "seu_nome_de_usuario",
+    "smtp_password": "sua_senha"
+}
+```
 
-5. **Criação do E-mail**: Para cada beneficiário, ele cria um e-mail no Outlook com as informações necessárias, como destinatário, assunto e corpo do e-mail. O corpo do e-mail contém uma mensagem padrão.
+## Uso
 
-6. **Anexação do Boleto PDF**: O script verifica se o arquivo PDF correspondente ao número de vendas do beneficiário existe no diretório `C:\boletos`. Se existir, ele anexa o arquivo PDF ao e-mail.
+Para usar o script, siga estas etapas:
 
-7. **Envio do E-mail**: O e-mail é enviado para o beneficiário.
+1. Garanta que todos os pré-requisitos sejam atendidos.
+2. Configure o arquivo `config.json` com as informações corretas do servidor SMTP.
+3. Crie o arquivo `email_body.html` com o conteúdo desejado para o corpo do e-mail.
+4. Certifique-se de que os boletos a serem enviados estejam no diretório `C:\boletos`.
+5. Execute o script Python.
 
-8. **Registro no Log**: O script registra a data e hora do envio do e-mail no arquivo de log especificado em `log_path`.
+## Resultados
 
-9. **Conclusão do Processo**: Após o envio de todos os e-mails, o script exibe a mensagem "Todos os e-mails foram enviados!".
+O script produz os seguintes resultados:
 
-## Personalização
+- Envia boletos por e-mail para destinatários que ainda não receberam.
+- Mantém um registro dos boletos enviados em um arquivo CSV chamado `boletos_enviados.csv` no diretório `Histórico de Envios`.
+- Registra todas as atividades e erros em um arquivo de log chamado `log.txt` no diretório `Log's de Envio`.
 
-Você pode personalizar o corpo do e-mail, o formato do nome do arquivo PDF e outras configurações de acordo com suas necessidades, modificando o código diretamente.
+## Considerações Finais
 
-Certifique-se de que todas as bibliotecas necessárias estejam instaladas no ambiente Python em que você pretende executar o script. Você pode instalar as bibliotecas ausentes usando o `pip`, se necessário.
-
-Lembre-se de manter os arquivos de boletos no diretório `C:\boletos` e ajustar os caminhos dos diretórios conforme necessário.
-
-**Observação**: Este script é uma simplificação e pode precisar de ajustes adicionais, dependendo dos detalhes específicos do seu ambiente e das necessidades de envio de e-mails. Certifique-se de testá-lo em um ambiente de desenvolvimento antes de usar em produção.
+Este script foi desenvolvido para automatizar o processo de envio de boletos por e-mail para beneficiários, proporcionando uma maneira eficiente e organizada de gerenciar o envio e manter um registro das operações realizadas. Certifique-se de configurar corretamente as informações de configuração do servidor SMTP e os caminhos dos arquivos antes de executar o script.

@@ -37,8 +37,13 @@ df.columns = df.columns.str.strip()
 # Variável para rastrear se ocorreu algum erro
 erro_ocorreu = False
 
-# Criar um arquivo CSV para rastrear boletos enviados
-registro_boletos_enviados = 'boletos_enviados.csv'
+# Criar uma pasta "Histórico de Envios" se ela não existir
+historico_envios_dir = r'C:\beneficiarios\Histórico de Envios'
+if not os.path.exists(historico_envios_dir):
+    os.makedirs(historico_envios_dir)
+
+# Criar um arquivo CSV para rastrear boletos enviados na pasta "Histórico de Envios"
+registro_boletos_enviados = os.path.join(historico_envios_dir, 'boletos_enviados.csv')
 
 # Verificar se o arquivo de registro já existe
 if not os.path.exists(registro_boletos_enviados):
@@ -46,6 +51,12 @@ if not os.path.exists(registro_boletos_enviados):
     with open(registro_boletos_enviados, 'w') as f:
         f.write('EMAIL,VENDAS\n')
 
+# Criar uma pasta "Log's de Envio" se ela não existir
+logs_envio_dir = r'C:\beneficiarios\Log\RegistroLog'
+if not os.path.exists(logs_envio_dir):
+    os.makedirs(logs_envio_dir)
+
+# Iterar sobre os dados do DataFrame
 for _, row in df.iterrows():
     destinatario_email = row["EMAIL"].strip()  # Remove espaços em branco
     vendas = str(row["VENDAS"]).zfill(10).strip()  # Remove espaços em branco e adiciona zeros à esquerda
@@ -58,8 +69,8 @@ for _, row in df.iterrows():
             ja_enviado = f"{data_hora_1} - Boleto já enviado para {destinatario_email}, VENDAS: {vendas}"
             print(ja_enviado)
 
-            # Salvar a mensagem de erro em um arquivo de log
-            log_path = r'C:\beneficiarios\log.txt'
+            # Salvar a mensagem de erro em um arquivo de log na pasta "Log's de Envio"
+            log_path = os.path.join(logs_envio_dir, 'log.txt')
             with open(log_path, 'a') as log_file:
                 log_file.write(ja_enviado + '\n')
 
@@ -111,7 +122,7 @@ for _, row in df.iterrows():
         print(mensagem)
 
         # Salvar a mensagem em um arquivo de log
-        log_path = r'C:\beneficiarios\log.txt'
+        log_path = os.path.join(logs_envio_dir, 'log.txt')
         with open(log_path, 'a') as log_file:
             log_file.write(mensagem + '\n')
     else:
@@ -119,7 +130,7 @@ for _, row in df.iterrows():
         print(erro_msg)
 
         # Salvar a mensagem de erro em um arquivo de log
-        log_path = r'C:\beneficiarios\log.txt'
+        log_path = os.path.join(logs_envio_dir, 'log.txt')
         with open(log_path, 'a') as log_file:
             log_file.write(erro_msg + '\n')
 

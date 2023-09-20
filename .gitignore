@@ -3,3 +3,4 @@ instalador/
 build/
 *.spec
 config.json
+boletos_enviados.csv

@@ -37,9 +37,25 @@ df.columns = df.columns.str.strip()
 # Variável para rastrear se ocorreu algum erro
 erro_ocorreu = False
 
+# Criar um arquivo CSV para rastrear boletos enviados
+registro_boletos_enviados = 'boletos_enviados.csv'
+
+# Verificar se o arquivo de registro já existe
+if not os.path.exists(registro_boletos_enviados):
+    # Se não existir, crie o arquivo com cabeçalhos
+    with open(registro_boletos_enviados, 'w') as f:
+        f.write('EMAIL,VENDAS\n')
+
 for _, row in df.iterrows():
     destinatario_email = row["EMAIL"]
     vendas = str(row["VENDAS"]).zfill(10)  # Nome do arquivo da coluna "VENDAS" com 10 dígitos
+
+    # Verificar se o boleto já foi enviado para este destinatário
+    with open(registro_boletos_enviados, 'r') as f:
+        registros_enviados = f.readlines()
+        if f'{destinatario_email},{vendas}\n' in registros_enviados:
+            print(f"Boleto já enviado para {destinatario_email}, VENDAS: {vendas}")
+            continue  # Pule este boleto, pois já foi enviado
 
     # Carregue o corpo do e-mail a partir de um arquivo
     email_body_file = 'email_body.html'
@@ -77,6 +93,10 @@ for _, row in df.iterrows():
         # Enviar o e-mail
         server.sendmail(smtp_username, destinatario_email, msg.as_string())
         server.quit()
+
+        # Após o envio bem-sucedido do boleto, registre o envio
+        with open(registro_boletos_enviados, 'a') as f:
+            f.write(f'{destinatario_email},{vendas}\n')
 
         data_hora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         mensagem = f"{data_hora} - E-mail enviado para {destinatario_email}"

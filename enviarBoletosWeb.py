@@ -76,57 +76,76 @@ for _, row in df.iterrows():
 
             continue  # Pule este boleto, pois já foi enviado
 
-    # Carregue o corpo do e-mail a partir de um arquivo
-    email_body_file = 'email_body.html'
-    if os.path.exists(email_body_file):
-        with open(email_body_file, 'r', encoding='utf-8') as f:  # Especifique a codificação UTF-8
-            email_body = f.read()
-    else:
-        raise Exception("O arquivo do corpo do e-mail não foi encontrado.")
+    try:
+        # Bloco TRY começa aqui:
 
-    # Construir o caminho completo para o arquivo PDF
-    pdf_path = rf'C:\boletos\{vendas}.pdf'
+        # Carregue o corpo do e-mail a partir de um arquivo
+        email_body_file = 'email_body.html'
+        if os.path.exists(email_body_file):
+            with open(email_body_file, 'r', encoding='utf-8') as f:  # Especifique a codificação UTF-8
+                email_body = f.read()
+        else:
+            raise Exception("O arquivo do corpo do e-mail não foi encontrado.")
 
-    # Verificar se o arquivo PDF existe
-    if os.path.exists(pdf_path):
-        # Configurar o e-mail
-        msg = MIMEMultipart()
-        msg['From'] = smtp_username
-        msg['To'] = destinatario_email
-        msg['Subject'] = "Boleto Mensal - UnimedRV"
+        # Construir o caminho completo para o arquivo PDF
+        pdf_path = rf'C:\boletos\{vendas}.pdf'
 
-        # Anexar o corpo do e-mail em formato HTML com codificação UTF-8
-        msg.attach(MIMEText(email_body, 'html', 'utf-8'))
+        # Verificar se o arquivo PDF existe
+        if os.path.exists(pdf_path):
+            # Configurar o e-mail
+            msg = MIMEMultipart()
+            msg['From'] = smtp_username
+            msg['To'] = destinatario_email
+            msg['Subject'] = "Boleto Mensal - UnimedRV"
 
-        # Anexar o arquivo PDF correspondente
-        with open(pdf_path, "rb") as pdf_file:
-            pdf_data = pdf_file.read()
-            pdf_attachment = MIMEApplication(pdf_data, Name=os.path.basename(pdf_path))
-            msg.attach(pdf_attachment)
+            # Anexar o corpo do e-mail em formato HTML com codificação UTF-8
+            msg.attach(MIMEText(email_body, 'html', 'utf-8'))
 
-        # Configurar o servidor SMTP
-        server = smtplib.SMTP(smtp_server, smtp_port)
-        server.starttls()
-        server.login(smtp_username, smtp_password)
+            # Anexar o arquivo PDF correspondente
+            with open(pdf_path, "rb") as pdf_file:
+                pdf_data = pdf_file.read()
+                pdf_attachment = MIMEApplication(pdf_data, Name=os.path.basename(pdf_path))
+                msg.attach(pdf_attachment)
 
-        # Enviar o e-mail
-        server.sendmail(smtp_username, destinatario_email, msg.as_string())
-        server.quit()
+            # Configurar o servidor SMTP
+            server = smtplib.SMTP(smtp_server, smtp_port)
+            server.starttls()
+            server.login(smtp_username, smtp_password)
 
-        # Após o envio bem-sucedido do boleto, registre o envio
-        with open(registro_boletos_enviados, 'a') as f:
-            f.write(f'{destinatario_email},{vendas}\n')
+            # Enviar o e-mail
+            server.sendmail(smtp_username, destinatario_email, msg.as_string())
+            server.quit()
 
-        data_hora = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        mensagem = f"{data_hora} - E-mail enviado para {destinatario_email}"
-        print(mensagem)
+            # Após o envio bem-sucedido do boleto, registre o envio
+            with open(registro_boletos_enviados, 'a') as f:
+                f.write(f'{destinatario_email},{vendas}\n')
 
-        # Salvar a mensagem em um arquivo de log
-        log_path = os.path.join(logs_envio_dir, 'log.txt')
-        with open(log_path, 'a') as log_file:
-            log_file.write(mensagem + '\n')
-    else:
-        erro_msg = f"Arquivo PDF nao encontrado para {destinatario_email}"
+            data_hora = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            mensagem = f"{data_hora} - E-mail enviado para {destinatario_email}"
+            print(mensagem)
+
+            # Salvar a mensagem em um arquivo de log
+            log_path = os.path.join(logs_envio_dir, 'log.txt')
+            with open(log_path, 'a') as log_file:
+                log_file.write(mensagem + '\n')
+
+        else:
+            erro_msg = f"Arquivo PDF nao encontrado para {destinatario_email}"
+            print(erro_msg)
+
+            # Salvar a mensagem de erro em um arquivo de log
+            log_path = os.path.join(logs_envio_dir, 'log.txt')
+            with open(log_path, 'a') as log_file:
+                log_file.write(erro_msg + '\n')
+
+                # Marcar que ocorreu um erro
+            erro_ocorreu = True
+
+        # Bloco TRY termina aqui
+
+    except Exception as e:
+        # Tratar a exceção que ocorreu durante o envio do email
+        erro_msg = f"Erro ao enviar email para {destinatario_email}: {str(e)}"
         print(erro_msg)
 
         # Salvar a mensagem de erro em um arquivo de log
